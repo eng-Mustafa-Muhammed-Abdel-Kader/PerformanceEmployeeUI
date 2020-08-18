@@ -1,0 +1,39 @@
+<div class="wrapper">
+    <a routerLink="/" routerLinkActive="active" class="close-btn">
+        <i class="fas fa-times-circle"></i>
+    </a>
+    <div class="container">
+        <h1>Welcome In <span>PMS</span></h1>
+        
+        <form ngForm="form" class="form" [formGroup]="loginForm">
+            <input type="text" placeholder="Username" name="email" maxlength="35" [(ngModel)]="login.oneEmployee.email" formControlName="email" autocomplete="off">
+            <p-message severity="error" [text]="loginForm.controls['email'].errors['required'] ? 'E-mail Is required' : loginForm.controls['email'].errors['pattern'] ? 'Your E-mail Is not Valid' : ''" *ngIf="!loginForm.controls['email'].valid&&loginForm.controls['email'].dirty"></p-message>
+            <div class="input-Box">
+                <input type="{{type}}" placeholder="Password" name="password" maxlength="16" [(ngModel)]="login.oneEmployee.password" formControlName="password" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" autocomplete="off">
+                <div (click)="ToggolePass()" id="toggle"></div>
+            </div>
+
+            <p-message severity="error" [text]="loginForm.controls['password'].errors['required'] ? 'password Is Required' : loginForm.controls['password'].errors['minlength'] ? 'minimum Length of Password is 5 character' : loginForm.controls['password'].errors['maxlength'] ? 'maximum character of password is 16 character' : ''" *ngIf="!loginForm.controls['password'].valid&&loginForm.controls['password'].dirty"></p-message>
+            <input type="submit" id="login-button" value="Login" (click)="LoginUser()"/>
+        </form>
+    </div>
+    
+    <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+
+<p-dialog header="Error" [(visible)]="showError" [modal]="true" [style]="{width: '60vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [resizable]="true" styleClass="mydialog">
+
+    <img class="text-center img-thumbnail" src="../../../../../assets/images/InferiorAnxiousAustralianfreshwatercrocodile-size_restricted.gif" alt="" width="300px" height="200px" style="position: relative; left: 30%;">
+    <h4 class="text-center">{{message}}</h4>
+</p-dialog>

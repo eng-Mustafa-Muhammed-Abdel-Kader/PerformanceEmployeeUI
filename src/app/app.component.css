@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis&family=Lobster&family=Titillium+Web:wght@300&display=swap');
+/*
+    font-family: 'Dosis', sans-serif;
+    font-family: 'Lobster', cursive;
+    font-family: 'Titillium Web', sans-serif;
+*/
+.home-container {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+}
+.sidebar-container {
+    min-width: 20%;
+    max-width: 20%;
+    background-color: rgb(238, 200, 155);
+    min-height: calc(100vh - 50px);
+    max-height: calc(100vh - 50px);
+
+}
+.main-container {
+    min-width: 80%;
+    max-width: 80%;
+    min-height: calc(100vh - 50px);
+    max-height: calc(100vh - 50px);
+}
+.main-router {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: calc(100% - 60px);
+    max-height: calc(100% - 60px);
+}
+.footer {
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,17 @@
+<header>
+    <div class="container-fluid header-display">
+        <div class="logo-section">
+            <a href="" class="logo">logo</a>
+        </div>
+        <div class="active-section">
+            <ul>
+                <li *ngIf="!isCorrectLogin">
+                    <a routerLink="/login" routerLinkActive="active" >login <i class="fa fa-star"></i></a>
+                </li>
+                <li *ngIf="isCorrectLogin">
+                    <button (click)="logOut()" class="btn-logOut">logOut <i class="fa fa-star"></i></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,74 @@
+<div class="group-container">
+    <div class="container-fluid">
+        <div class="employee-info">
+            <p class="head-info">admin group data</p>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-6 col-md-6 col-sm-12">
+                        Id : {{employeeData.id}}
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-12">
+                        Display Name : {{employeeData.displayName}}
+                    </div>
+                    <div class="col-xl-12 col-md-12 col-sm-12">
+                        e-mail : {{employeeData.email}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="all-table-container">
+            <div class="container-table first-child">
+                <h4 class="text-center">Your Available Reviewers</h4>
+                <div class="container-fluid">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Position</th>
+                                <th>Department</th>
+                                <th><i class="fas fa-cogs"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let employee of EmployeeData | paginate:{itemsPerPage: 3, currentPage:p}; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ employee.fullName }}</td>
+                                <td>{{ employee.email }}</td>
+                                <td>{{ employee.titleName }}</td>
+                                <td>{{ employee.departmentName }}</td>
+                                <td><button class="btn btn-warning" (click)="addObjectToList(employee.id, employee.fullName)"><i class="far fa-save"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="pagination">
+                        <pagination-controls (pageChange)="changePagination($event)"></pagination-controls>
+                    </div> 
+                </div>
+            </div>
+            <div class="container-table last-child">
+                <h4 class="text-center">Code Of Select Emplotee</h4>
+                <div class="container-fluid">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th><i class="fas fa-cogs"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of ArrayOfEmployeeName; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ item.Name }}</td>
+                                <td><button class="btn btn-danger" (click)="removeReviewer(i)"><i class="far fa-trash-alt"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <button class="save-btn btn btn-warning" (click)="addGroup()"><i class="far fa-save"></i> save group</button>
+    </div>
+</div>

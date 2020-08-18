@@ -1,0 +1,58 @@
+<div class="info-Section" *ngIf="isCorrectLogin == true">
+  <h4 class="text-center">{{employeeData.displayName}}</h4>
+  <h6 class="text-center">{{employeeData.email}}</h6>
+</div>
+<div class="link-Section">
+    <ul>
+        <li>
+            <a routerLink="/createPlan" routerLinkActive="active" >create Plan</a>
+        </li>
+        <li>
+            <a routerLink="/showEmployeePlan" routerLinkActive="active" >show plan</a>
+        </li>
+        <li>
+          <a routerLink="/approvalPlan" routerLinkActive="active">approval Plan</a>
+        </li>
+        <li>
+          <a routerLink="/evaluationQuarter" routerLinkActive="active">quarter evaluation</a>
+        </li>
+        <li>
+            <a routerLink="/createGroup" routerLinkActive="active" >create Group</a>
+        </li>
+        <li>
+            <a routerLink="/showGroupOfEmployee" routerLinkActive="active" >show Group</a>
+        </li>
+        <li>
+          <a routerLink="/AcceptanceStatus" routerLinkActive="active" >Acceptance Status</a>
+        </li>
+        <li>
+          <a routerLink="/EvaluationPariod" routerLinkActive="active" >Evaluation Pariod</a>
+        </li>
+    </ul>
+</div>
+<!-- <div class="accordionStyle">
+    <div class="accordion" id="accordionExample">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h2 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Plan
+            </button>
+          </h2>
+        </div>
+    
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+            <ul>
+                <li>
+                    <a [routerLink]="['addNew']" routerLinkActive="active">Create Plan</a>
+                </li>
+                <li>
+                    <a [routerLink]="['tableNews']" routerLinkActive="active" >Show Plan</a>
+                </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->

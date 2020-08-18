@@ -1,0 +1,88 @@
+<div class="pariod-container">
+    <div class="container-fluid">
+        <h1 class="text-center main-header">Evaluation Period data</h1>
+        <button class="btn btn-warning btn-dialog" (click)="openModel()">add period</button>
+        <div class="container-table">
+            <h1 class="text-center main-header" *ngIf="pariodData?.length == 0">You don't have any data please add new Period</h1>
+            <table class="table table-hover table-light text-center" *ngIf="pariodData?.length > 0">
+                <thead>
+                    <tr>
+                        <td rowspan="2">#</td>
+                        <td rowspan="2">Name</td>
+                        <td rowspan="2">Year</td>
+                        <td colspan="2">Date Pariod</td>
+                        <td rowspan="2"><i class="fas fa-cogs"></i></td> 
+                    </tr>
+                    <tr>
+                        <td>Start Date</td>
+                        <td>End Date</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of pariodData | paginate:{itemsPerPage: 4, currentPage:p}; let i = index"> 
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ item.pariodName }}</td>
+                        <td>{{ item.pariodYear }}</td>
+                        <td>{{ item.startDate | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ item.endDate | date:'dd/MM/yyyy' }}</td>
+                        <td>
+                            <!-- <button class="btn btn-info" style="margin-right: 5px;" (click)="showModelUpdate(item)"><i class="far fa-edit"></i></button> -->
+                            <button class="btn btn-danger" (click)="deleteRow(item)"><i class="far fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="pagination" *ngIf="pariodData?.length > 0">
+                <pagination-controls (pageChange)="changePagination($event)"></pagination-controls>
+            </div> 
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="showAddModel" [modal]="true" [style]="{width: '35vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+    <h6 class="text-center main-header">Add Evaluation Period</h6>
+    <div class="row">
+        <div class="col-12">
+            <form class="status-form" [formGroup]="pariodGroup">
+                <div class="container">
+                    <div class="form-group">
+                        <label for="name">Status Name</label>
+                        <input class="form-control" type="text" name="pariodName" [(ngModel)]="pariod.onePariod.pariodName" formControlName="pariodName" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" autocomplete="off" placeholder="Pariod Name">
+                    </div>
+                    <p-message severity="error" [text]="pariodGroup.controls['pariodName'].errors['required'] ? 'Status Name Is Required' : pariodGroup.controls['pariodName'].errors['minlength'] ? 'The Minimum Length Characters Of Status Name Is 5 Character' : pariodGroup.controls['pariodName'].errors['maxlength'] ? 'The Maximum Characters Of Status Name Is 20 Characters' : pariodGroup.controls['pariodName'].errors['pattern'] ? 'Status Name Character Is Invalid Please Write The Correct Words' : ''" *ngIf="!pariodGroup.controls['pariodName'].valid&&pariodGroup.controls['pariodName'].dirty"></p-message>
+                    <div class="form-group">
+                        <label for="startDate">Start Date Period</label>
+                        <p-calendar [(ngModel)]="pariod.onePariod.startDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [readonlyInput]="true" [inline]="false" [touchUI]="true" dateFormat="dd/mm/yy" styleClass="customDate" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" formControlName="startDate" placeholder="Choose Date For ex: {{datePlaceHolder}}"></p-calendar>
+                    </div>
+                    <p-message severity="error" [text]="pariodGroup.controls['startDate'].errors['required'] ? 'start Date Pariod Is Required' : ''" *ngIf="!pariodGroup.controls['startDate'].valid&&pariodGroup.controls['startDate'].dirty"></p-message>
+
+                    <div class="form-group">
+                        <label for="endDate">End Date Period</label>
+                        <p-calendar [(ngModel)]="pariod.onePariod.endDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2050" [readonlyInput]="true" [inline]="false" [touchUI]="true" dateFormat="dd/mm/yy" styleClass="customDate" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" formControlName="endDate" placeholder="Choose Date For ex: {{datePlaceHolder}}"></p-calendar>
+                    </div>
+                    <p-message severity="error" [text]="pariodGroup.controls['endDate'].errors['required'] ? 'end Date Pariod Is Required' : ''" *ngIf="!pariodGroup.controls['endDate'].valid&&pariodGroup.controls['endDate'].dirty"></p-message>
+                    
+                    <button class="btn btn-warning save-btn" (click)="saveData()"><i class="far fa-save"></i> save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-dialog header="Error" [(visible)]="showError" [modal]="true" [style]="{width: '60vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/InferiorAnxiousAustralianfreshwatercrocodile-size_restricted.gif" alt="" width="300px" height="200px" style="margin: 0 auto; display: block;">
+    <h4 class="text-center">{{message}}</h4>
+</p-dialog>
+
+<p-dialog header="Success" [(visible)]="showSuccess" [modal]="true" [style]="{width: '60vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/dribbble-success-2.gif" alt="" width="300px" height="200px" style="margin: 0 auto; display: block;">
+    <h4 class="text-center">{{message}}</h4>
+</p-dialog>
+
+<p-dialog [(visible)]="showLoading" [modal]="true" [style]="{width: '255px',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog" [closable]="false">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/spinningwheel.gif" alt="" width="250px" height="200px" style="position: relative; left: 1%;">
+</p-dialog>

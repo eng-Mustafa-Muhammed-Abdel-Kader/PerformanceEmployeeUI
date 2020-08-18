@@ -1,0 +1,95 @@
+<div class="acceptance">
+    <div class="container-fluid">
+        <h1 class="text-center main-header">acceptance status data</h1>
+        <button class="btn btn-warning btn-dialog" (click)="openModel()">add Status</button>
+        <div class="container-table">
+            <h1 class="text-center main-header" *ngIf="statusData?.length == 0">You don't have any data please add new status</h1>
+            <table class="table table-hover table-light text-center" *ngIf="statusData?.length > 0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th><i class="fas fa-cogs"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of statusData | paginate:{itemsPerPage: 4, currentPage:p}; let i = index"> 
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ item.statusName }}</td>
+                        <td>
+                            <button class="btn btn-info" style="margin-right: 5px;" (click)="showModelUpdate(item)"><i class="far fa-edit"></i></button>
+                            <button class="btn btn-danger" (click)="deleteRow(item)"><i class="far fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="pagination" *ngIf="statusData?.length > 0">
+                <pagination-controls (pageChange)="changePagination($event)"></pagination-controls>
+            </div> 
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Add Acceptance Status" [(visible)]="showAddModel" [modal]="true" [style]="{width: '35vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+    <img class="text-center img-thumbnail" src="../../../../assets/images/layer.png" alt="" width="150px" height="150px" style="    position: relative;
+    margin: 0 auto;
+    display: block;
+    border-radius: 19%;
+    padding: 5px;">
+    <div class="row">
+        <div class="col-12">
+            <form class="status-form" [formGroup]="statusForm">
+                <div class="container">
+                    <div class="form-group">
+                        <label for="name">Status Name</label>
+                        <input class="form-control" type="text" name="statusName" [(ngModel)]="status.oneStatus.statusName" formControlName="statusName" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" autocomplete="off" placeholder="Status Name">
+                    </div>
+                    <p-message severity="error" [text]="statusForm.controls['statusName'].errors['required'] ? 'Status Name Is Required' : statusForm.controls['statusName'].errors['minlength'] ? 'The Minimum Length Characters Of Status Name Is 5 Character' : statusForm.controls['statusName'].errors['maxlength'] ? 'The Maximum Characters Of Status Name Is 20 Characters' : statusForm.controls['statusName'].errors['pattern'] ? 'Status Name Character Is Invalid Please Write The Correct Words' : ''" *ngIf="!statusForm.controls['statusName'].valid&&statusForm.controls['statusName'].dirty"></p-message>
+                    <button class="btn btn-warning save-btn" (click)="saveData()"><i class="far fa-save"></i> save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</p-dialog>
+
+
+<p-dialog header="Update Acceptance Status" [(visible)]="showUpdateModel" [modal]="true" [style]="{width: '35vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+    <img class="text-center img-thumbnail" src="../../../../assets/images/layer.png" alt="" width="150px" height="150px" style="    position: relative;
+    margin: 0 auto;
+    display: block;
+    border-radius: 19%;
+    padding: 5px;">
+    <div class="row">
+        <div class="col-12">
+            <form class="status-form" [formGroup]="updateStatusForm">
+                <div class="container">
+                    <div class="form-group">
+                        <label for="name">Status Name</label>
+                        <input class="form-control" type="text" name="statusName" [(ngModel)]="status.modelUpdate.statusName" formControlName="statusName" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" autocomplete="off" placeholder="Status Name">
+                    </div>
+                    <p-message severity="error" [text]="updateStatusForm.controls['statusName'].errors['required'] ? 'Status Name Is Required' : updateStatusForm.controls['statusName'].errors['minlength'] ? 'The Minimum Length Characters Of Status Name Is 5 Character' : updateStatusForm.controls['statusName'].errors['maxlength'] ? 'The Maximum Characters Of Status Name Is 20 Characters' : updateStatusForm.controls['statusName'].errors['pattern'] ? 'Status Name Character Is Invalid Please Write The Correct Words' : ''" *ngIf="!updateStatusForm.controls['statusName'].valid&&updateStatusForm.controls['statusName'].dirty"></p-message>
+                    <button class="btn btn-warning save-btn" (click)="saveUpdateData()"><i class="far fa-save"></i> save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-dialog header="Error" [(visible)]="showError" [modal]="true" [style]="{width: '60vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/InferiorAnxiousAustralianfreshwatercrocodile-size_restricted.gif" alt="" width="300px" height="200px" style="margin: 0 auto; display: block;">
+    <h4 class="text-center">{{message}}</h4>
+</p-dialog>
+
+<p-dialog header="Success" [(visible)]="showSuccess" [modal]="true" [style]="{width: '60vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/dribbble-success-2.gif" alt="" width="300px" height="200px" style="margin: 0 auto; display: block;">
+    <h4 class="text-center">{{message}}</h4>
+</p-dialog>
+
+<p-dialog [(visible)]="showLoading" [modal]="true" [style]="{width: '255px',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog" [closable]="false">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/spinningwheel.gif" alt="" width="250px" height="200px" style="position: relative; left: 1%;">
+</p-dialog>

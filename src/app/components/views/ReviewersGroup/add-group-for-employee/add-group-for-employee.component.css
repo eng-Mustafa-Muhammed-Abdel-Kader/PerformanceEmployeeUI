@@ -1,0 +1,78 @@
+.group-container {
+    width: 95%;
+    min-height: 82vh;
+    max-height: 82vh;
+    margin: 11px auto;
+    box-shadow: 0 0 17px rgb(216, 216, 216);
+    border-radius: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+.container-fluid {
+    padding-top: 10px;
+}
+.employee-info {
+    width: 95%;
+    margin: 35px auto;
+    border: 3px solid rgb(255, 136, 0);
+    border-radius: 10px;
+    position: relative;
+    padding: 5px;
+    box-shadow: -5px 5px 16px rgb(214, 135, 45), 5px -5px 16px rgb(201, 117, 21);
+    margin-bottom: 15px;
+    padding-top: 20px;
+    font-family: 'Titillium Web', sans-serif;
+}
+.head-info {
+    padding: 3px 10px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 3px solid rgb(255, 136, 0);
+    color: rgb(255, 136, 0);
+    position: absolute;
+    top: -20px;
+    left: 10px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0px -5px 17px rgb(214, 135, 45);
+}
+.employee-info .container-fluid .row div {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(255, 136, 0);
+}
+.all-table-container 
+{
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    background-color: transparent;
+    padding: 10px;
+}
+.container-table {
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgb(207, 202, 202);
+    overflow-x: scroll;
+    box-sizing: border-box;
+}
+.first-child {
+    width: 59%;
+    margin-right: 1%;
+    margin-left: 10px;
+}
+.last-child {
+    width: 40%;
+}
+.btn {
+    color: #fff;
+}
+.save-btn {
+    margin: 10px auto;
+    display: block;
+    font-size: 18px;
+    text-transform: capitalize;
+    font-family: 'Titillium Web', sans-serif;
+}

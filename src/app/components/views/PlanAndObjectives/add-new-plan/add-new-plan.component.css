@@ -1,0 +1,88 @@
+.plan-container {
+    width: 95%;
+    min-height: 82vh;
+    max-height: 82vh;
+    margin: 11px auto;
+    box-shadow: 0 0 17px rgb(216, 216, 216);
+    border-radius: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.container-fluid {
+    padding-top: 10px;
+}
+.main-header {
+    margin-bottom: 25px;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: bold;
+    font-size: 44px;
+    text-shadow: 0 0 16px #f88d00;
+    color: white;
+    text-transform: capitalize;
+}
+.pre {
+    width: fit-content;
+    padding: 5px 20px;
+    margin: 3px auto;
+    border: 3px double #f88d00;
+    font-family: 'Titillium Web', sans-serif;
+    color: #f88d00;
+    font-size: 18px;
+}
+.add-objective-btn, .submit-btn, .save-btn {
+    display: inline-block;
+    color: white;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 18px;
+    margin: 5px auto;
+    text-transform: capitalize;
+}
+.submit-btn, .submit-btn {
+    display: inline-block;
+    margin-left: 5px;
+}
+.container-table {
+    width: 80%;
+    margin: 15px auto;
+    overflow-x: scroll;
+    padding: 10px;
+    box-shadow: 0 0 17px rgb(216, 216, 216);
+    border-radius: 15px;
+}
+.container-table-dialog {
+    width: 100%;
+    margin: 15px auto;
+    overflow-x: scroll;
+    padding: 10px;
+    box-shadow: 0 0 17px rgb(216, 216, 216);
+    border-radius: 15px;
+}
+table thead {
+    background-color: #ff9100a6;
+    color: white;
+    
+}
+table thead td { font-size: 18px; }
+table tbody {
+    cursor: pointer;
+}
+
+table td {
+    border: 1px solid #919191;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+}
+.container-button {
+    margin: 5px auto;
+    width: fit-content;
+}
+.submit-head {
+    color: #f88d00;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: capitalize;
+    margin: 5px;
+}

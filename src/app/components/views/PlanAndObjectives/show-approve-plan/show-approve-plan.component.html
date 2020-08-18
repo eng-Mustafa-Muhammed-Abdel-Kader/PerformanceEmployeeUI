@@ -1,0 +1,181 @@
+<div class="show-plan">
+    <div class="container-fluid" *ngIf="planId != 0">
+      <h1 class="text-center main-header">plan of employee</h1>  
+      <div class="container-table">
+          <table class="table table-hover">
+              <thead>
+                  <tr>
+                      <td rowspan="2">id</td>
+                      <td rowspan="2">date</td>
+                      <td rowspan="2">year</td>
+                      <td rowspan="2">direct manager</td>
+                      <td colspan="2">performance</td>
+                      <td colspan="2">behavior</td>
+                      <td rowspan="2">status</td>
+                      <td rowspan="2"><i class="fas fa-cogs"></i></td>
+                  </tr>
+                  <tr>
+                      <td>employee</td>
+                      <td>manager</td>
+                      <td>employee</td>
+                      <td>manager</td>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let item of employeePlanData; let i = index">
+                      <td>{{ item.planId }}</td>
+                      <td>{{ item.creationDate | date:'dd/MM/yyyy' }}</td>
+                      <td>{{ item.planYear }}</td>
+                      <td>{{ item.directManager }}</td>
+                      <td>{{ item.employeePerformanceResult }}</td>
+                      <td>{{ item.managerPerformanceResult }}</td>
+                      <td>{{ item.employeeBehaviorResult }}</td>
+                      <td>{{ item.managerBehaviorResult }}</td>
+                      <td>{{ item.status.statusName }}</td>
+                      <td>
+                          <button class="btn btn-info table-one-button" (click)="openObjectiveOfPlan(item, i)"><i class="far fa-folder-open"></i> open plan</button>
+                          <button class="btn btn-success table-one-button" (click)="upgradePlan(item)"><i class="far fa-lightbulb"></i> upgrade plan</button>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+    </div>
+    <div class="container-fluid header-container" *ngIf="planId == 0">
+        <h1 class="text-center main-header">you don't have any plan to review it</h1>
+    </div>
+</div>
+
+<p-dialog header="show Objective Of Plan" [(visible)]="showObjective" [modal]="true" [style]="{width: '80vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+    <h1 class="text-center main-header">the objective of plan</h1>
+    <div class="container-table">
+      <table class="table table-hover">
+          <thead>
+              <tr>
+                  <td rowspan="2">id</td>
+                  <td rowspan="2">descreption</td>
+                  <td colspan="2">objective</td>
+                  <td rowspan="2">quarter period</td>
+                  <td rowspan="2">accept</td>
+                  <td rowspan="2">comment</td>
+                  <td rowspan="2"><i class="fas fa-cogs"></i></td>
+              </tr>
+              <tr>
+                  <td>value</td>
+                  <td>weight</td>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of objectives">
+                  <td>{{ item.objectiveId }}</td>
+                  <td>{{ item.descreption }}</td>
+                  <td>{{ item.objectiveValue }}</td>
+                  <td>{{ item.objectiveWeight }} %</td>
+                  <td>{{ item.periodName }}</td>
+                  <td>
+                      <p class="text-center text-success" *ngIf="item.isAcceptted">accept</p>
+                      <p class="text-center text-danger" *ngIf="!item.isAcceptted">un accept</p>
+                  </td>
+                  <td>{{ item.comment }}</td>
+                  <td>
+                    <button class="btn btn-info" (click)="OpenModelUpdate(item)"><i class="far fa-comments"></i> decision</button>
+                </td>
+              </tr>
+          </tbody>
+      </table> 
+    </div>
+</p-dialog>
+
+<p-dialog header="Upgrade Plan" [(visible)]="showUpgrade" [modal]="true" [style]="{width: '80vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+    <h1 class="text-center main-header">choose Your Group</h1>
+    <div class="container-table">
+      <table class="table table-hover" *ngIf="groupReviewersData?.length > 0">
+          <thead>
+              <tr>
+                  <td>id</td>
+                  <td>year created</td>
+                  <td>group name</td>
+                  <td><i class="fas fa-cogs"></i></td>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of groupReviewersData; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.yearReview }}</td>
+                  <td>group {{ i + 1 }}</td>
+                  <td>
+                    <button class="btn btn-info" (click)="upgradeplan(item.groupId, i)"><i class="far fa-comments"></i> decision</button>
+                </td>
+              </tr>
+          </tbody>
+      </table> 
+      <button class="btn btn-success" *ngIf="groupReviewersData?.length > 0" (click)="CommentUpgrade()"><i class="far fa-lightbulb"></i> upgrade plan</button>
+      <h1 class="text-center main-header" *ngIf="groupReviewersData?.length == 0">You Don't have any group to complete Or Upgradr This plan ,please create Group and try again</h1>
+      <a class="btn btn-info" routerLink="/createGroup" routerLinkActive="active" *ngIf="groupReviewersData?.length == 0">create group</a>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="showUpdateModel" [modal]="true" [style]="{width: '35vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+    <h6 class="text-center main-header">Say Your Decision</h6>
+    <div class="button-container">
+        <button class="btn btn-success" (click)="trueFunction()"><i class="far fa-thumbs-up"></i> accept</button>
+        <button class="btn btn-danger" (click)="falseFunction()"><i class="far fa-thumbs-down"></i> reject</button>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form class="status-form" [formGroup]="approveForm">
+                <div class="container">
+                    <div class="form-group">
+                        <label for="comment">Comment</label>
+                        <input class="form-control" type="text" name="comment" [(ngModel)]="plan.objective.comment" formControlName="comment" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" autocomplete="off" placeholder="Pariod Name">
+                    </div>
+                    <p-message severity="error" [text]="approveForm.controls['comment'].errors['required'] ? 'This Comment Is Required' : approveForm.controls['comment'].errors['minlength'] ? 'The Minimum Length Characters Of This Comment Is 5 Character' : approveForm.controls['comment'].errors['maxlength'] ? 'The Maximum Characters Of This Comment Is 20 Characters' : approveForm.controls['comment'].errors['pattern'] ? 'This Comment Character Is Invalid Please Write The Correct Words' : ''" *ngIf="!approveForm.controls['comment'].valid&&approveForm.controls['comment'].dirty"></p-message>
+
+                    <button class="btn btn-warning save-btn" (click)="saveData()"><i class="far fa-save"></i> save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-dialog [(visible)]="showUpgradeModel" [modal]="true" [style]="{width: '35vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+    <h6 class="text-center main-header">upgrade ypur plan</h6>
+    <div class="button-container">
+        <button class="btn btn-success" (click)="trueUpgradeFunction()"><i class="far fa-thumbs-up"></i> accept</button>
+        <button class="btn btn-danger" (click)="falseUpgradeFunction()"><i class="far fa-thumbs-down"></i> reject</button>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form class="status-form" [formGroup]="logForm">
+                <div class="container">
+                    <div class="form-group">
+                        <label for="comment">Comment</label>
+                        <input class="form-control" type="text" name="comment" [(ngModel)]="planLog.oneLog.comment" formControlName="comment" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" autocomplete="off" placeholder="Pariod Name">
+                    </div>
+                    <p-message severity="error" [text]="logForm.controls['comment'].errors['required'] ? 'This Comment Is Required' : logForm.controls['comment'].errors['minlength'] ? 'The Minimum Length Characters Of This Comment Is 5 Character' : logForm.controls['comment'].errors['maxlength'] ? 'The Maximum Characters Of This Comment Is 20 Characters' : logForm.controls['comment'].errors['pattern'] ? 'This Comment Character Is Invalid Please Write The Correct Words' : ''" *ngIf="!logForm.controls['comment'].valid&&logForm.controls['comment'].dirty"></p-message>
+
+                    <button class="btn btn-warning save-btn" (click)="saveUpgradeData()"><i class="far fa-save"></i> save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-dialog header="Error" [(visible)]="showError" [modal]="true" [style]="{width: '60vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/InferiorAnxiousAustralianfreshwatercrocodile-size_restricted.gif" alt="" width="300px" height="200px" style="margin: 0 auto; display: block;">
+    <h4 class="text-center">{{message}}</h4>
+</p-dialog>
+
+<p-dialog header="Success" [(visible)]="showSuccess" [modal]="true" [style]="{width: '60vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/dribbble-success-2.gif" alt="" width="300px" height="200px" style="margin: 0 auto; display: block;">
+    <h4 class="text-center">{{message}}</h4>
+</p-dialog>
+
+<p-dialog [(visible)]="showLoading" [modal]="true" [style]="{width: '255px',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog" [closable]="false">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/spinningwheel.gif" alt="" width="250px" height="200px" style="position: relative; left: 1%;">
+</p-dialog>

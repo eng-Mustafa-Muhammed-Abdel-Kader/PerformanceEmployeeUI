@@ -1,0 +1,132 @@
+<div class="plan-container">
+    <div class="container-fluid">
+       <h1 class="text-center main-header">create new plan</h1> 
+       <div class="pre" *ngIf="totalPlanWeight > 0">Total Plan Presentage Is :- {{totalPlanWeight}} %</div>
+       <div class="container-button">
+            <button class="btn btn-warning add-objective-btn" (click)="openAddModel()"><i class="fas fa-plus"></i> add objective</button>
+            <button class="btn btn-info submit-btn" (click)="openModelSubmit()"><i class="far fa-save"></i> submit plan</button> 
+            <button class="btn btn-success submit-btn" (click)="savePlan()"><i class="far fa-save"></i> save plan</button>
+       </div>
+       <div class="container-table">
+           <h1 class="text-center main-header" *ngIf="arrayOfObjective?.length == 0">You don't have any objective in your plan please add your objective to create a powerful plan</h1>
+           <table *ngIf="arrayOfObjective?.length > 0" class="table table-hover">
+            <thead>
+                <tr>
+                    <td rowspan="2">#</td>
+                    <td rowspan="2">Descreption</td>
+                    <td colspan="2">Objective</td>
+                    <td rowspan="2"><i class="fas fa-cogs"></i></td>
+                </tr>
+                <tr>
+                    <td>Value</td>
+                    <td>Weight</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of arrayOfObjective; let i = index"> 
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.descreption }}</td>
+                    <td>{{ item.objectiveValue }}</td>
+                    <td>{{ item.objectiveWeight }} %</td>
+                    <td>
+                        <button class="btn btn-danger" (click)="deleteRow(item, i)"><i class="far fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+           </table>
+       </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="showAddModel" [modal]="true" [style]="{width: '35vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+    <h6 class="text-center main-header">Add Evaluation Period</h6>
+    <div class="row">
+        <div class="col-12">
+            <form class="status-form" [formGroup]="planForm">
+                <div class="container">
+                    <div class="form-group">
+                        <label for="name">objective Descreption</label>
+                        <input class="form-control" type="text" name="descreption" [(ngModel)]="plan.objective.descreption" formControlName="descreption" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" autocomplete="off" placeholder="Objective descreption">
+                    </div>
+                    <p-message severity="error" [text]="planForm.controls['descreption'].errors['required'] ? 'Status Name Is Required' : planForm.controls['descreption'].errors['minlength'] ? 'The Minimum Length Characters Of Status Name Is 20 Character' : planForm.controls['descreption'].errors['maxlength'] ? 'The Maximum Characters Of Status Name Is 150 Characters' : planForm.controls['descreption'].errors['pattern'] ? 'Status Name Character Is Invalid Please Write The Correct Words And Special Characters of (-,()_&)' : ''" *ngIf="!planForm.controls['descreption'].valid&&planForm.controls['descreption'].dirty"></p-message>
+                    <div class="form-group">
+                        <label for="period">evaluation Period</label>
+                        <input class="form-control" type="text" name="descreption" [(ngModel)]="periodName" formControlName="period" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" autocomplete="off" placeholder="Period Quarter" readonly style="width: 90%; display: inline-block;">
+                        <button class="btn btn-info text-light" style="margin-left: 2%; width: 8%; margin-top: -1px;" (click)="openPeriodModel()"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <p-message severity="error" [text]="planForm.controls['period'].errors['required'] ? 'Period Quarter Of Your Objective Is Required' : ''" *ngIf="!planForm.controls['period'].valid&&planForm.controls['period'].dirty"></p-message>
+
+                    <div class="form-group">
+                        <label for="objectiveValue">Objective Value</label>
+                        <input class="form-control" type="number" name="objectiveValue" [(ngModel)]="plan.objective.objectiveValue" formControlName="objectiveValue" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" autocomplete="off" placeholder="Objective Value">
+                    </div>
+                    <p-message severity="error" [text]="planForm.controls['objectiveValue'].errors['required'] ? 'Objective Value Pariod Is Required' : planForm.controls['objectiveValue'].errors['required'] ? 'the Minimum Of objective Value Is 1' : ''" *ngIf="!planForm.controls['objectiveValue'].valid&&planForm.controls['objectiveValue'].dirty"></p-message>
+                    
+                    <div class="form-group">
+                        <label for="endDate">Objective Weight</label>
+                        <input class="form-control" type="number" name="objectiveWeight" [(ngModel)]="plan.objective.objectiveWeight" formControlName="objectiveWeight" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" autocomplete="off" placeholder="Objective descreption">
+                    </div>
+                    <p-message severity="error" [text]="planForm.controls['objectiveWeight'].errors['required'] ? 'Objective Weight Pariod Is Required' : planForm.controls['objectiveWeight'].errors['required'] ? 'the Minimum Of objective Weight Is 1' : ''" *ngIf="!planForm.controls['objectiveWeight'].valid&&planForm.controls['objectiveWeight'].dirty"></p-message>
+                    <button class="btn btn-warning save-btn" (click)="saveData()" style="display: inline-block;"><i class="far fa-save"></i> save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-dialog [(visible)]="showperiodModel" [modal]="true" [style]="{width: '70vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+    <h6 class="text-center main-header">Choose Quarter Period</h6>
+    <div class="row">
+        <div class="col-12">
+            <div class="container-table-dialog">
+                <table class="table table-hover table-light text-center">
+                    <thead>
+                        <tr>
+                            <td rowspan="2">#</td>
+                            <td rowspan="2">Name</td>
+                            <td rowspan="2">Year</td>
+                            <td colspan="2">Date Pariod</td>
+                        </tr>
+                        <tr>
+                            <td>Start Date</td>
+                            <td>End Date</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of periodData; let i = index" (dblclick)="addQuarter(item)"> 
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ item.pariodName }}</td>
+                            <td>{{ item.pariodYear }}</td>
+                            <td>{{ item.startDate | date:'dd/MM/yyyy' }}</td>
+                            <td>{{ item.endDate | date:'dd/MM/yyyy' }}</td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-dialog header="Submit Plan" [(visible)]="showSubmit" [modal]="true" [style]="{width: '60vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+    <h4 class="text-center submit-head">When You Click Submit Plan You can't Update Of Your Plan Before the reviewing person makes a decision on this plan</h4>
+    <button class="btn btn-info submit-btn" (click)="SubmitPlan()" style="display: inline-block;"><i class="far fa-save"></i> submit plan</button> 
+</p-dialog>
+
+<p-dialog header="Error" [(visible)]="showError" [modal]="true" [style]="{width: '60vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/InferiorAnxiousAustralianfreshwatercrocodile-size_restricted.gif" alt="" width="300px" height="200px" style="margin: 0 auto; display: block;">
+    <h4 class="text-center">{{message}}</h4>
+</p-dialog>
+
+<p-dialog header="Success" [(visible)]="showSuccess" [modal]="true" [style]="{width: '60vw',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/dribbble-success-2.gif" alt="" width="300px" height="200px" style="margin: 0 auto; display: block;">
+    <h4 class="text-center">{{message}}</h4>
+</p-dialog>
+
+<p-dialog [(visible)]="showLoading" [modal]="true" [style]="{width: '255px',backgroundColor: '#efff00 !important'}" [baseZIndex]="10000" [draggable]="false" [resizable]="true" styleClass="mydialog" [closable]="false">
+
+    <img class="text-center img-thumbnail" src="../../../../assets/images/spinningwheel.gif" alt="" width="250px" height="200px" style="position: relative; left: 1%;">
+</p-dialog>
